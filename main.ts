@@ -25,22 +25,22 @@ namespace myTiles {
 `
     //% blockIdentity=images._tile
     export const tile1 = img`
-e e e e e e e e e e e e e e e e 
-e . . . . . . . . . . . . . . e 
-e . . . . . . . . . . . . . . e 
-e . . . . . . . . . . . . . . e 
-e . . . . . . . . . . . . . . e 
-e . . . . . . . . . . . . . . e 
-e . . . . . . . . . . . . . . e 
-e . . . . . . . . . . . . . . e 
-e . . . . . . . . . . . . . . e 
-e . . . . . . . . . . . . . . e 
-e . . . . . . . . . . . . . . e 
-e . . . . . . . . . . . . . . e 
-e . . . . . . . . . . . . . . e 
-e . . . . . . . . . . . . . . e 
-e . . . . . . . . . . . . . . e 
-e e e e e e e e e e e e e e e e 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
+4 . . . . . . . . . . . . . . 4 
+4 . . . . . . . . . . . . . . 4 
+4 . . . . . . . . . . . . . . 4 
+4 . . . e e e e e e e e . . . 4 
+4 . . . e 4 e 4 4 4 4 e . . . 4 
+4 . . . e e e e e e e e . . . 4 
+4 . . . e 4 4 4 4 e 4 e . . . 4 
+4 . . . e e e e e e e e . . . 4 
+4 . . . e 4 4 e 4 4 4 e . . . 4 
+4 . . . e e e e e e e e . . . 4 
+4 . . . . . . . . . . . . . . 4 
+4 . . . . . . . . . . . . . . 4 
+4 . . . . . . . . . . . . . . 4 
+4 . . . . . . . . . . . . . . 4 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
 `
     //% blockIdentity=images._tile
     export const tile2 = img`
@@ -82,22 +82,22 @@ e e e e e e e e e e e e e e e e
 `
     //% blockIdentity=images._tile
     export const tile4 = img`
-5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
-5 . . . . . . . . . . . . . . 5 
-5 . . . . . . . . . . . . . . 5 
-5 . . . . . . . . . . . . . . 5 
-5 . . . . . . . . . . . . . . 5 
-5 . . . . . . . . . . . . . . 5 
-5 . . . . . . . . . . . . . . 5 
-5 . . . . . . . . . . . . . . 5 
-5 . . . . . . . . . . . . . . 5 
-5 . . . . . . . . . . . . . . 5 
-5 . . . . . . . . . . . . . . 5 
-5 . . . . . . . . . . . . . . 5 
-5 . . . . . . . . . . . . . . 5 
-5 . . . . . . . . . . . . . . 5 
-5 . . . . . . . . . . . . . . 5 
-5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
+4 . . . . . . . . . . . . . . 4 
+4 . . . . . . . . . . . . . . 4 
+4 . . . . . . . . . . . . . . 4 
+4 . . . . . . e e . . . . . . 4 
+4 . . . . . e . . e . . . . . 4 
+4 . . . . . . . . e . . . . . 4 
+4 . . . . . . . e . . . . . . 4 
+4 . . . . . . e . . . . . . . 4 
+4 . . . . . . . . . . . . . . 4 
+4 . . . . . . e . . . . . . . 4 
+4 . . . . . . . . . . . . . . 4 
+4 . . . . . . . . . . . . . . 4 
+4 . . . . . . . . . . . . . . 4 
+4 . . . . . . . . . . . . . . 4 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
 `
     //% blockIdentity=images._tile
     export const tile5 = img`
@@ -175,8 +175,70 @@ e e e e e e e e e e e e e e e e
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
 `
+    //% blockIdentity=images._tile
+    export const tile9 = img`
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . 7 . . . . 
+. . . . . . . e 7 . 7 7 7 . . . 
+. . . . . . . e 7 7 7 7 7 . . . 
+. . . . . . . e 7 7 7 7 7 . . . 
+. . . . . . . e 7 7 7 . 7 . . . 
+. . . . . . . e . 7 . . . . . . 
+. . . . 7 7 . e . . . . . . . 7 
+. 7 . 7 7 7 7 e . . . . 7 7 7 . 
+`
+    //% blockIdentity=images._tile
+    export const tile10 = img`
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . f f f . . . . . . . 
+. . . . . . f f f . . . . . . . 
+. . . . . . f f f . . . . . . . 
+. . . . . . . e . . . . . . . . 
+. . . . . . e e e . . . . . . . 
+. . . . . e . e . e . . . . . . 
+. . . . . . e . e . . . . . . . 
+. . . . . . e . e . . . . . . . 
+. . . . . . e . e . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . 7 . . . . . . . 7 . 7 . 
+. . 7 7 7 . . 7 7 7 . . . 7 . . 
+`
 }
-function addBricks () {
+function initMapElements () {
+    for (let value of tiles.getTilesByType(myTiles.tile3)) {
+        sprMushroom = sprites.create(img`
+. . . . . . . . . . . . . . . . 
+. . . . . f f f f f f . . . . . 
+. . . f f 2 2 2 2 2 . f f . . . 
+. . f . . 2 2 2 2 2 2 . . f . . 
+. f . . 2 2 2 2 2 2 2 2 . 2 f . 
+. f . 2 2 2 2 . . 2 2 2 2 2 f . 
+f 2 2 2 2 2 . . . . 2 2 2 2 2 f 
+f 2 2 2 2 2 . . . . 2 2 . 2 2 f 
+f . 2 2 2 2 2 . . 2 2 . . . 2 f 
+f . . 2 2 2 2 2 2 2 2 2 . 2 2 f 
+f . 2 2 f f f f f f f f 2 2 2 f 
+. f f f d d f d d f d d f f f . 
+. . f d d d f d d f d d d f . . 
+. . f d d d d d d d d d d f . . 
+. . . f d d d d d d d d f . . . 
+. . . . f f f f f f f f . . . . 
+`, SpriteKind.Mushroom)
+        sprMushroom.vx = -120
+        sprMushroom.ay = 220
+        tiles.placeOnTile(sprMushroom, value)
+        tiles.setTileAt(value, myTiles.tile0)
+    }
     for (let value of tiles.getTilesByType(myTiles.tile1)) {
         sprBrick = sprites.create(img`
 e e e e e e e e e e e e e e e e 
@@ -198,8 +260,6 @@ e e e e e e e e e e e e e e e e
 `, SpriteKind.Bricks)
         tiles.placeOnTile(sprBrick, value)
     }
-}
-function addSecret () {
     sprSecret = sprites.create(img`
 e e e e e e e e e e e e e e e e 
 e 5 5 5 5 5 5 5 5 5 5 5 5 5 5 e 
@@ -221,49 +281,17 @@ e e e e e e e e e e e e e e e e
     tiles.placeOnRandomTile(sprSecret, myTiles.tile4)
 }
 scene.onHitWall(SpriteKind.Mushroom, function (sprite) {
-    if (sprite.vx > 0) {
+    if (sprite.isHittingTile(CollisionDirection.Right)) {
         sprite.vx = -100
-    } else {
+    } else if (sprite.isHittingTile(CollisionDirection.Left)) {
         sprite.vx = 100
     }
 })
-controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (mario.vy == 0) {
-        mario.vy += -120
-    }
-})
-function addEnemies () {
-    for (let value of tiles.getTilesByType(myTiles.tile3)) {
-        sprMushroom = sprites.create(img`
-. . . . . . . . . . . . . . . . 
-. . . . . f f f f f f . . . . . 
-. . . f f 2 2 2 2 2 . f f . . . 
-. . f . . 2 2 2 2 2 2 . . f . . 
-. f . . 2 2 2 2 2 2 2 2 . 2 f . 
-. f . 2 2 2 2 . . 2 2 2 2 2 f . 
-f 2 2 2 2 2 . . . . 2 2 2 2 2 f 
-f 2 2 2 2 2 . . . . 2 2 . 2 2 f 
-f . 2 2 2 2 2 . . 2 2 . . . 2 f 
-f . . 2 2 2 2 2 2 2 2 2 . 2 2 f 
-f . 2 2 f f f f f f f f 2 2 2 f 
-. f f f d d f d d f d d f f f . 
-. . f d d d f d d f d d d f . . 
-. . f d d d d d d d d d d f . . 
-. . . f d d d d d d d d f . . . 
-. . . . f f f f f f f f . . . . 
-`, SpriteKind.Mushroom)
-        sprMushroom.vx = 120
-        tiles.placeOnTile(sprMushroom, value)
-        tiles.setTileAt(value, myTiles.tile0)
-    }
-}
-let sprMushroom: Sprite = null
-let sprSecret: Sprite = null
-let sprBrick: Sprite = null
-let mario: Sprite = null
-scene.setBackgroundColor(13)
-tiles.setTilemap(tiles.createTilemap(
-            hex`5000080005000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000500000000030a03000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000050000000000000000000000000505000005000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005000000090000000000000005050500000505090000080900000000080000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000202020202020202020202020202060000070202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202`,
+function initMap () {
+    if (level == 1) {
+        scene.setBackgroundColor(13)
+        tiles.setTilemap(tiles.createTilemap(
+            hex`5000080005000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005000000000000000000000000000900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000500000000030a03000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000050000000000000000000000000505000005000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005000000090011000000000005050500000505090000080900000000080000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000202020202020202020202020202060000070202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202`,
             img`
 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
@@ -274,13 +302,14 @@ tiles.setTilemap(tiles.createTilemap(
 2 . . . . . . . . . . . 2 2 2 . . 2 2 . . . 2 . . . . . 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 . . 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
 `,
-            [myTiles.tile0,sprites.castle.tilePath6,sprites.castle.tilePath2,myTiles.tile1,sprites.dungeon.stairLarge,sprites.dungeon.floorLight2,sprites.castle.tilePath3,sprites.castle.tilePath1,myTiles.tile2,myTiles.tile3,myTiles.tile4,myTiles.tile5,myTiles.tile6,myTiles.tile7,sprites.builtin.brick,myTiles.tile8],
+            [myTiles.tile0,sprites.castle.tilePath6,sprites.castle.tilePath2,myTiles.tile1,sprites.dungeon.stairLarge,sprites.dungeon.floorLight2,sprites.castle.tilePath3,sprites.castle.tilePath1,myTiles.tile2,myTiles.tile3,myTiles.tile4,myTiles.tile5,myTiles.tile6,myTiles.tile7,sprites.builtin.brick,myTiles.tile8,myTiles.tile9,myTiles.tile10],
             TileScale.Sixteen
         ))
-addEnemies()
-addBricks()
-addSecret()
-mario = sprites.create(img`
+    }
+    initMapElements()
+}
+function initPlayer () {
+    mario = sprites.create(img`
 . . . . . . f f f f . . . . . . 
 . . . . f f f 2 2 f f f . . . . 
 . . . f f f 2 2 2 2 f f f . . . 
@@ -298,6 +327,21 @@ mario = sprites.create(img`
 . . . . . f f f f f f . . . . . 
 . . . . . f f . . f f . . . . . 
 `, SpriteKind.Player)
-controller.moveSprite(mario, 60, 0)
-mario.ay = 220
-scene.cameraFollowSprite(mario)
+    tiles.placeOnRandomTile(mario, myTiles.tile10)
+    controller.moveSprite(mario, 60, 0)
+    mario.ay = 220
+    scene.cameraFollowSprite(mario)
+}
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (mario.vy == 0) {
+        mario.vy += -120
+    }
+})
+let mario: Sprite = null
+let sprSecret: Sprite = null
+let sprBrick: Sprite = null
+let sprMushroom: Sprite = null
+let level = 0
+level = 1
+initMap()
+initPlayer()
