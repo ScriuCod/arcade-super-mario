@@ -2,6 +2,7 @@ namespace SpriteKind {
     export const Bricks = SpriteKind.create()
     export const Mushroom = SpriteKind.create()
     export const Secret = SpriteKind.create()
+    export const Turtle = SpriteKind.create()
 }
 namespace myTiles {
     //% blockIdentity=images._tile
@@ -213,26 +214,45 @@ e e e e e e e e e e e e e e e e
 . . . . 7 . . . . . . . 7 . 7 . 
 . . 7 7 7 . . 7 7 7 . . . 7 . . 
 `
+    //% blockIdentity=images._tile
+    export const tile11 = img`
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . e e . . . . . . 
+. . . . . . . . e 1 . . . . . . 
+. . . . . . 7 . e f . . . . . . 
+. . . . . 6 7 1 e e . . . . . . 
+. . . . 6 7 6 1 e . . . . . . . 
+. . . . 7 6 7 1 e . . . . . . . 
+. . . . . 1 1 e e . . . . . . . 
+. . . . . e e . e e . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . 7 . . . . . . . . . 7 . 
+7 7 . . 7 7 7 . . . . . 7 7 . . 
+`
 }
 function initMapElements () {
     for (let value of tiles.getTilesByType(myTiles.tile3)) {
         sprMushroom = sprites.create(img`
-. . . . . . . . . . . . . . . . 
-. . . . . f f f f f f . . . . . 
-. . . f f 2 2 2 2 2 . f f . . . 
-. . f . . 2 2 2 2 2 2 . . f . . 
-. f . . 2 2 2 2 2 2 2 2 . 2 f . 
-. f . 2 2 2 2 . . 2 2 2 2 2 f . 
-f 2 2 2 2 2 . . . . 2 2 2 2 2 f 
-f 2 2 2 2 2 . . . . 2 2 . 2 2 f 
-f . 2 2 2 2 2 . . 2 2 . . . 2 f 
-f . . 2 2 2 2 2 2 2 2 2 . 2 2 f 
-f . 2 2 f f f f f f f f 2 2 2 f 
-. f f f d 1 f d 1 f d d f f f . 
-. . f d d f f d f f d d d f . . 
-. . f d d d d d d d d d d f . . 
-. . . f d d d d d d d d f . . . 
-. . . . f f f f f f f f . . . . 
+. . . . . . e e e e . . . . . . 
+. . . . . e e e e e e . . . . . 
+. . . . e e e e e e e e . . . . 
+. . . e e e e e e e e e e . . . 
+. . e f f f e e e e f f f e . . 
+. e e e d f e e e e f d e e e . 
+. e e e d f e e e e f d e e e . 
+e e e e d f d e e d f d e e e e 
+e e e e d d d e e d d d e e e e 
+e e e e e e e e e e e e e e e e 
+. e e e e d d d d d d e e e e . 
+. . . . d d d d d d d d . . . . 
+. . f f d d d d d d d d f f . . 
+. f f f f f d d d d f f f f f . 
+. f f f f f f d d f f f f f f . 
+. . f f f f f d d f f f f f . . 
 `, SpriteKind.Mushroom)
         sprMushroom.vx = -120
         sprMushroom.ay = 220
@@ -259,6 +279,36 @@ e 4 4 4 4 4 4 4 e 4 4 4 4 4 4 e
 e e e e e e e e e e e e e e e e 
 `, SpriteKind.Bricks)
         tiles.placeOnTile(sprBrick, value)
+    }
+    for (let value of tiles.getTilesByType(myTiles.tile11)) {
+        sprTurtle = sprites.create(img`
+. . . . . . . . . . . f f . . . 
+. . . . . . . . . . f 1 1 f . . 
+. . . . . . . . . f f 1 1 1 f . 
+. . . . . . . . f 4 f 1 1 f f . 
+. . . . . . . . f 4 4 1 1 f 4 f 
+. . . f f f . . f 4 4 f f 4 4 f 
+. . f 7 7 7 f f f 4 4 f . f 4 f 
+. f 7 f 7 f 7 f 1 f 4 f . . f f 
+. f 7 7 f 7 7 f 1 f 4 4 f . . . 
+f 7 7 f 7 f 7 f 1 f 4 4 4 f f . 
+f 7 f 7 7 7 f 7 f 1 f 4 4 4 f . 
+f f 7 7 7 7 7 f f 1 f 4 f f . . 
+f 7 f 7 7 7 f 7 f 1 f 4 f . . . 
+f 7 7 f 7 f 7 7 f 1 f f . . . . 
+f 7 7 7 f 7 7 7 f 1 f . . . . . 
+. f 7 f 7 f 7 f 1 1 f . . . . . 
+f f f f f f f f 1 1 f . . . . . 
+f 1 1 1 1 1 1 1 1 f f . . . . . 
+f 1 1 1 1 1 1 f f f 4 f . . . . 
+. f f f f f f f 4 4 4 4 f . . . 
+f 1 4 4 4 f . f 4 4 4 4 1 f . . 
+f f f f f f . f f f f f f f . . 
+`, SpriteKind.Turtle)
+        sprTurtle.vx = -60
+        sprTurtle.ay = 220
+        tiles.placeOnTile(sprTurtle, value)
+        tiles.setTileAt(value, myTiles.tile0)
     }
     sprSecret = sprites.create(img`
 e e e e e e e e e e e e e e e e 
@@ -291,9 +341,9 @@ scene.onHitWall(SpriteKind.Mushroom, function (sprite) {
 })
 function initMap () {
     if (level == 1) {
-        scene.setBackgroundColor(13)
+        scene.setBackgroundColor(11)
         tiles.setTilemap(tiles.createTilemap(
-            hex`5000080005000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005000000000000000000000000000900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000500000000030a03000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000050000000000000000000000000505000005000000001100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005000000090000000000000005050500000505090000080900000000080000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000202020202020202020202020202060000070202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202`,
+            hex`5000080005000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005000000000000000000000000000900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000500000000030a03000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000050000000000000000000000000505000005000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005001100090012000000000005050500000505090000080900000000080000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000202020202020202020202020202060000070202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202`,
             img`
 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
@@ -304,7 +354,7 @@ function initMap () {
 2 . . . . . . . . . . . 2 2 2 . . 2 2 . . . 2 . . . . . 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 . . 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
 `,
-            [myTiles.tile0,sprites.castle.tilePath6,sprites.castle.tilePath2,myTiles.tile1,sprites.dungeon.stairLarge,sprites.dungeon.floorLight2,sprites.castle.tilePath3,sprites.castle.tilePath1,myTiles.tile2,myTiles.tile3,myTiles.tile4,myTiles.tile5,myTiles.tile6,myTiles.tile7,sprites.builtin.brick,myTiles.tile8,myTiles.tile9,myTiles.tile10],
+            [myTiles.tile0,sprites.castle.tilePath6,sprites.castle.tilePath2,myTiles.tile1,sprites.dungeon.stairLarge,sprites.dungeon.floorLight2,sprites.castle.tilePath3,sprites.castle.tilePath1,myTiles.tile2,myTiles.tile3,myTiles.tile4,myTiles.tile5,myTiles.tile6,myTiles.tile7,sprites.builtin.brick,myTiles.tile8,myTiles.tile9,myTiles.tile10,myTiles.tile11],
             TileScale.Sixteen
         ))
     }
@@ -312,33 +362,83 @@ function initMap () {
 }
 function initPlayer () {
     mario = sprites.create(img`
-. . . . . . f f f f . . . . . . 
-. . . . f f f 2 2 f f f . . . . 
-. . . f f f 2 2 2 2 f f f . . . 
-. . f f f e e e e e e f f f . . 
-. . f f e 2 2 2 2 2 2 e e f . . 
-. . f e 2 f f f f f f 2 e f . . 
-. . f f f f e e e e f f f f . . 
-. f f e f b f 4 4 f b f e f f . 
-. f e e 4 1 f d d f 1 4 e e f . 
-. . f e e d d d d d d e e f . . 
-. . . f e e 4 4 4 4 e e f . . . 
-. . e 4 f 2 2 2 2 2 2 f 4 e . . 
-. . 4 d f 2 2 2 2 2 2 f d 4 . . 
-. . 4 4 f 4 4 5 5 4 4 f 4 4 . . 
-. . . . . f f f f f f . . . . . 
-. . . . . f f . . f f . . . . . 
+. . . . 2 2 2 2 2 2 . . . . . . 
+. . . 2 2 2 2 2 2 2 2 2 2 . . . 
+. . . e e e d d d f d . . . . . 
+. . e d e d d d d f d d d . . . 
+. . e d e e d d d d f d d d . . 
+. . e e d d d d d f f f f . . . 
+. . . . d d d d d d d d . . . . 
+. . . 2 2 8 2 2 2 2 . . . . . . 
+. . 2 2 2 8 2 2 8 2 2 2 . . . . 
+. 2 2 2 2 8 8 8 8 2 2 2 2 . . . 
+. d d 2 8 8 8 8 8 8 2 d d . . . 
+. d d d 8 5 8 8 5 8 d d d . . . 
+. d d 8 8 8 . . 8 8 8 d d . . . 
+. . . 8 8 8 . . 8 8 8 . . . . . 
+. . e e e . . . . e e e . . . . 
+. e e e e . . . . e e e e . . . 
 `, SpriteKind.Player)
-    tiles.placeOnRandomTile(mario, myTiles.tile10)
-    controller.moveSprite(mario, 60, 0)
     mario.ay = 220
+    controller.moveSprite(mario, 100, 0)
+    tiles.placeOnRandomTile(mario, myTiles.tile10)
     scene.cameraFollowSprite(mario)
+    for (let value of tiles.getTilesByType(myTiles.tile10)) {
+        tiles.setTileAt(value, myTiles.tile0)
+    }
 }
+scene.onHitWall(SpriteKind.Turtle, function (sprite) {
+    if (sprite.isHittingTile(CollisionDirection.Right)) {
+        sprite.vx = -60
+        flipSprite(sprite)
+    } else if (sprite.isHittingTile(CollisionDirection.Left)) {
+        sprite.vx = 60
+        flipSprite(sprite)
+    }
+})
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (mario.vy == 0) {
         mario.vy += -120
     }
 })
+function oldElements () {
+    sprMushroom = sprites.create(img`
+. . . . . . . . . . . . . . . . 
+. . . . . f f f f f f . . . . . 
+. . . f f 2 2 2 2 2 . f f . . . 
+. . f . . 2 2 2 2 2 2 . . f . . 
+. f . . 2 2 2 2 2 2 2 2 . 2 f . 
+. f . 2 2 2 2 . . 2 2 2 2 2 f . 
+f 2 2 2 2 2 . . . . 2 2 2 2 2 f 
+f 2 2 2 2 2 . . . . 2 2 . 2 2 f 
+f . 2 2 2 2 2 . . 2 2 . . . 2 f 
+f . . 2 2 2 2 2 2 2 2 2 . 2 2 f 
+f . 2 2 f f f f f f f f 2 2 2 f 
+. f f f d 1 f d 1 f d d f f f . 
+. . f d d f f d f f d d d f . . 
+. . f d d d d d d d d d d f . . 
+. . . f d d d d d d d d f . . . 
+. . . . f f f f f f f f . . . . 
+`, SpriteKind.Mushroom)
+    sprMushroom = sprites.create(img`
+. . . . . . 4 4 4 4 . . . . . . 
+. . . . . 4 4 4 4 2 2 . . . . . 
+. . . . 4 4 4 4 2 2 2 2 . . . . 
+. . . 4 4 4 4 4 2 2 2 2 2 . . . 
+. . 4 4 4 4 4 4 4 2 2 2 4 4 . . 
+. 4 4 2 2 2 4 4 4 4 4 4 4 4 4 . 
+. 4 2 2 2 2 2 4 4 4 4 4 4 4 4 . 
+4 4 2 2 2 2 2 4 4 4 4 4 2 2 4 4 
+4 4 2 2 2 2 2 4 4 4 4 4 2 2 2 4 
+4 4 4 2 2 2 4 4 4 4 4 4 4 2 2 4 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
+. 4 2 2 2 1 1 1 1 1 1 2 2 2 4 . 
+. . . . 1 1 1 1 1 1 1 1 . . . . 
+. . . . 1 1 1 1 1 1 4 1 . . . . 
+. . . . 1 1 1 1 1 1 4 1 . . . . 
+. . . . . 1 1 1 1 4 1 . . . . . 
+`, SpriteKind.Mushroom)
+}
 function flipSprite (currentSprite: Sprite) {
     myPicture = currentSprite.image
     myPicture.flipX()
@@ -347,6 +447,7 @@ function flipSprite (currentSprite: Sprite) {
 let myPicture: Image = null
 let mario: Sprite = null
 let sprSecret: Sprite = null
+let sprTurtle: Sprite = null
 let sprBrick: Sprite = null
 let sprMushroom: Sprite = null
 let level = 0
