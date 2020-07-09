@@ -3,6 +3,7 @@ namespace SpriteKind {
     export const Mushroom = SpriteKind.create()
     export const Secret = SpriteKind.create()
     export const Turtle = SpriteKind.create()
+    export const Carapace = SpriteKind.create()
 }
 namespace myTiles {
     //% blockIdentity=images._tile
@@ -234,6 +235,32 @@ e e e e e e e e e e e e e e e e
 7 7 . . 7 7 7 . . . . . 7 7 . . 
 `
 }
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Turtle, function (sprite, otherSprite) {
+    if (sprite.y - otherSprite.y < -10) {
+        otherSprite.setImage(img`
+. . . . . f f f f f f . . . . . 
+. . . . f f 7 7 7 7 f f . . . . 
+. . . f 7 7 f f f f 7 7 f . . . 
+. . f 7 7 f 7 7 7 7 f 7 7 f . . 
+. . f 7 f 7 7 7 7 7 7 f 7 f . . 
+. f 7 f 7 7 7 7 7 7 7 7 f 7 f . 
+. f f 7 f 7 7 7 7 7 7 f 7 f f . 
+f 7 7 7 7 f 7 7 7 7 f 7 7 7 7 f 
+f 7 7 7 7 7 f f f f 7 7 7 7 7 f 
+f f f 7 7 f 7 7 7 7 f 7 7 f f f 
+1 1 f f f 7 7 7 7 7 7 f f f 1 1 
+f 1 1 1 f 7 7 7 7 7 7 f 1 1 1 f 
+. f f 1 1 f f f f f f 1 1 f f . 
+. . . f 1 1 1 1 1 1 1 1 f . . . 
+. . . . f f 1 1 1 1 f f . . . . 
+. . . . . . f f f f . . . . . . 
+`)
+        otherSprite.vx = 0
+        otherSprite.setKind(SpriteKind.Carapace)
+        sprites.setDataNumber(otherSprite, "interaction", game.runtime())
+        sprites.setDataBoolean(otherSprite, "moving", false)
+    }
+})
 function initMapElements () {
     for (let value of tiles.getTilesByType(myTiles.tile3)) {
         sprMushroom = sprites.create(img`
@@ -343,7 +370,7 @@ function initMap () {
     if (level == 1) {
         scene.setBackgroundColor(11)
         tiles.setTilemap(tiles.createTilemap(
-            hex`5000080005000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005000000000000000000000000000900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000500000000030a03000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000050000000000000000000000000505000005000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005001100090012000000000005050500000505090000080900000000080000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000202020202020202020202020202060000070202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202`,
+            hex`5000080005000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005000000000000000000000000000900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000500000000030a03000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000050000000000000000000000000505000005000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005001100090000000000000005050500000505090000080900000000080012000000000900090009000900090000000000000000000000000000000000000000000000000000000000000000000000000202020202020202020202020202060000070202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202`,
             img`
 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
@@ -387,6 +414,26 @@ function initPlayer () {
         tiles.setTileAt(value, myTiles.tile0)
     }
 }
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Carapace, function (sprite, otherSprite) {
+    if (game.runtime() - sprites.readDataNumber(otherSprite, "interaction") > 1000 && !(sprites.readDataBoolean(otherSprite, "moving"))) {
+        if (sprite.x < otherSprite.x) {
+            otherSprite.vx = 240
+            sprites.setDataBoolean(otherSprite, "moving", true)
+        } else {
+            otherSprite.vx = -240
+            sprites.setDataBoolean(otherSprite, "moving", true)
+        }
+    }
+})
+scene.onHitWall(SpriteKind.Carapace, function (sprite) {
+    if (sprite.isHittingTile(CollisionDirection.Right)) {
+        sprite.vx = -240
+        flipSprite(sprite)
+    } else if (sprite.isHittingTile(CollisionDirection.Left)) {
+        sprite.vx = 240
+        flipSprite(sprite)
+    }
+})
 scene.onHitWall(SpriteKind.Turtle, function (sprite) {
     if (sprite.isHittingTile(CollisionDirection.Right)) {
         sprite.vx = -60
@@ -438,7 +485,31 @@ f . 2 2 f f f f f f f f 2 2 2 f
 . . . . 1 1 1 1 1 1 4 1 . . . . 
 . . . . . 1 1 1 1 4 1 . . . . . 
 `, SpriteKind.Mushroom)
+    sprMushroom = sprites.create(img`
+. . . . . f f f f f f . . . . . 
+. . . . f f 7 7 7 7 f f . . . . 
+. . . f 7 7 f f f f 7 7 f . . . 
+. . f 7 7 f 7 7 7 7 f 7 7 f . . 
+. . f 7 f 7 7 7 7 7 7 f 7 f . . 
+. f 7 f 7 7 7 7 7 7 7 7 f 7 f . 
+. f f 7 f 7 7 7 7 7 7 f 7 f f . 
+f 7 7 7 7 f 7 7 7 7 f 7 7 7 7 f 
+f 7 7 7 7 7 f f f f 7 7 7 7 7 f 
+f f f 7 7 f 7 7 7 7 f 7 7 f f f 
+1 1 f f f 7 7 7 7 7 7 f f f 1 1 
+f 1 1 1 f 7 7 7 7 7 7 f 1 1 1 f 
+. f f 1 1 f f f f f f 1 1 f f . 
+. . . f 1 1 1 1 1 1 1 1 f . . . 
+. . . . f f 1 1 1 1 f f . . . . 
+. . . . . . f f f f . . . . . . 
+`, SpriteKind.Turtle)
 }
+sprites.onOverlap(SpriteKind.Carapace, SpriteKind.Mushroom, function (sprite, otherSprite) {
+    if (sprites.readDataBoolean(sprite, "moving")) {
+        otherSprite.ay += 200
+        otherSprite.destroy(effects.spray, 200)
+    }
+})
 function flipSprite (currentSprite: Sprite) {
     myPicture = currentSprite.image
     myPicture.flipX()

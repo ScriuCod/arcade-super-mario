@@ -1,7 +1,8 @@
 {
     "name": "2020-07-03 - Mario",
     "dependencies": {
-        "device": "*"
+        "device": "*",
+        "arcade-sprite-data": "github:microsoft/arcade-sprite-data#v0.0.5"
     },
     "description": "",
     "files": [
