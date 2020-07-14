@@ -366,6 +366,13 @@ scene.onHitWall(SpriteKind.Mushroom, function (sprite) {
         flipSprite(sprite)
     }
 })
+controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (sprites.readDataString(mario, "direction") == "right") {
+        sprites.setDataString(mario, "direction", "left")
+        mario.image.flipX()
+        console.log("marioLeft")
+    }
+})
 function initMap () {
     if (level == 1) {
         scene.setBackgroundColor(11)
@@ -406,6 +413,8 @@ function initPlayer () {
 . . e e e . . . . e e e . . . . 
 . e e e e . . . . e e e e . . . 
 `, SpriteKind.Player)
+    sprites.setDataString(mario, "direction", "right")
+    info.setLife(3)
     mario.ay = 220
     controller.moveSprite(mario, 100, 0)
     tiles.placeOnRandomTile(mario, myTiles.tile10)
@@ -413,6 +422,7 @@ function initPlayer () {
     for (let value of tiles.getTilesByType(myTiles.tile10)) {
         tiles.setTileAt(value, myTiles.tile0)
     }
+    marioStarting()
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Carapace, function (sprite, otherSprite) {
     if (game.runtime() - sprites.readDataNumber(otherSprite, "interaction") > 1000 && !(sprites.readDataBoolean(otherSprite, "moving"))) {
@@ -434,6 +444,19 @@ scene.onHitWall(SpriteKind.Carapace, function (sprite) {
         flipSprite(sprite)
     }
 })
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Mushroom, function (sprite, otherSprite) {
+    if (sprite.y < otherSprite.top) {
+        otherSprite.destroy(effects.trail, 500)
+    } else {
+        if (sprites.readDataBoolean(mario, "starting") == false && info.life() > 1) {
+            marioStarting()
+            info.changeLifeBy(-1)
+        } else if (sprites.readDataBoolean(mario, "starting") == false && info.life() == 1) {
+            marioDie()
+            info.changeLifeBy(-1)
+        }
+    }
+})
 scene.onHitWall(SpriteKind.Turtle, function (sprite) {
     if (sprite.isHittingTile(CollisionDirection.Right)) {
         sprite.vx = -60
@@ -443,6 +466,30 @@ scene.onHitWall(SpriteKind.Turtle, function (sprite) {
         flipSprite(sprite)
     }
 })
+function marioDie () {
+    mario.setImage(img`
+. . . . 2 2 2 2 2 2 . . . . . . 
+. . . 2 2 2 2 2 2 2 2 . . . . . 
+. . . . d f d d d f d . . . . . 
+. . . d d f d d d f d d . . . . 
+d d . d d d e e e d d d . . d . 
+d d . d d e e e e e d d . d d . 
+2 d . . d d d d d d d . 2 d d . 
+2 2 2 2 2 8 2 2 2 2 2 2 2 2 . . 
+. 2 2 2 2 8 2 2 8 2 2 2 2 . . . 
+. . . 2 2 8 8 8 8 2 2 . . . . . 
+. . . . 8 8 8 8 8 8 . . . . . . 
+. . . . 8 5 8 8 5 8 . . . . . . 
+. e e 8 8 8 . . 8 8 8 e . . . . 
+. e e e 8 8 . . 8 8 e e e e . . 
+. e e e e . . . . . e e e e . . 
+. . e e . . . . . . e e e e . . 
+`)
+    mario.vy = -200
+    pause(1000)
+    mario.destroy(effects.spray, 100)
+    marioStarting()
+}
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (mario.vy == 0) {
         mario.vy += -120
@@ -510,10 +557,27 @@ sprites.onOverlap(SpriteKind.Carapace, SpriteKind.Mushroom, function (sprite, ot
         otherSprite.destroy(effects.confetti, 200)
     }
 })
+controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (sprites.readDataString(mario, "direction") == "left") {
+        sprites.setDataString(mario, "direction", "right")
+        mario.image.flipX()
+        console.log("marioright")
+    }
+})
 function flipSprite (currentSprite: Sprite) {
     myPicture = currentSprite.image
     myPicture.flipX()
     currentSprite.setImage(myPicture)
+}
+function marioStarting () {
+    sprites.setDataBoolean(mario, "starting", true)
+    for (let index = 0; index < 10; index++) {
+        mario.setFlag(SpriteFlag.Invisible, true)
+        pause(100)
+        mario.setFlag(SpriteFlag.Invisible, false)
+        pause(100)
+    }
+    sprites.setDataBoolean(mario, "starting", false)
 }
 let myPicture: Image = null
 let mario: Sprite = null

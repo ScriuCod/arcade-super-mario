@@ -1,5 +1,5 @@
 {
-    "name": "2020-07-03 - Mario",
+    "name": "Mario",
     "dependencies": {
         "device": "*",
         "arcade-sprite-data": "github:microsoft/arcade-sprite-data#v0.0.5"
