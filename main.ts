@@ -481,12 +481,28 @@ scene.onHitWall(SpriteKind.Mushroom, function (sprite) {
         flipSprite(sprite)
     }
 })
+function playerBlink (times: number) {
+    for (let index = 0; index < times; index++) {
+        mario.setFlag(SpriteFlag.Invisible, true)
+        pause(100)
+        mario.setFlag(SpriteFlag.Invisible, false)
+        pause(100)
+    }
+}
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     if (sprites.readDataString(mario, "direction") == "right") {
         sprites.setDataString(mario, "direction", "left")
         mario.image.flipX()
         console.log("marioLeft")
     }
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.secretFlower, function (sprite, otherSprite) {
+    otherSprite.destroy(effects.fire, 200)
+    playerBlink(3)
+    sprite.image.replace(2, 7)
+    sprite.image.replace(8, 1)
+    info.startCountdown(15)
+    playerBlink(3)
 })
 function initMap () {
     if (level == 1) {
@@ -692,6 +708,12 @@ controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
         console.log("marioright")
     }
 })
+info.onCountdownEnd(function () {
+    playerBlink(3)
+    mario.image.replace(7, 2)
+    mario.image.replace(1, 8)
+    playerBlink(3)
+})
 function flipSprite (currentSprite: Sprite) {
     myPicture = currentSprite.image
     myPicture.flipX()
@@ -699,12 +721,7 @@ function flipSprite (currentSprite: Sprite) {
 }
 function marioStarting () {
     sprites.setDataBoolean(mario, "starting", true)
-    for (let index = 0; index < 10; index++) {
-        mario.setFlag(SpriteFlag.Invisible, true)
-        pause(100)
-        mario.setFlag(SpriteFlag.Invisible, false)
-        pause(100)
-    }
+    playerBlink(10)
     sprites.setDataBoolean(mario, "starting", false)
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.BricksLower, function (sprite, otherSprite) {
