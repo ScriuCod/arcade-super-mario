@@ -481,14 +481,6 @@ scene.onHitWall(SpriteKind.Mushroom, function (sprite) {
         flipSprite(sprite)
     }
 })
-function playerBlink (times: number) {
-    for (let index = 0; index < times; index++) {
-        mario.setFlag(SpriteFlag.Invisible, true)
-        pause(100)
-        mario.setFlag(SpriteFlag.Invisible, false)
-        pause(100)
-    }
-}
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     if (sprites.readDataString(mario, "direction") == "right") {
         sprites.setDataString(mario, "direction", "left")
@@ -708,6 +700,14 @@ controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
         console.log("marioright")
     }
 })
+function playerBlink (times: number) {
+    for (let index = 0; index < times; index++) {
+        mario.setFlag(SpriteFlag.Invisible, true)
+        pause(100)
+        mario.setFlag(SpriteFlag.Invisible, false)
+        pause(100)
+    }
+}
 info.onCountdownEnd(function () {
     playerBlink(3)
     mario.image.replace(7, 2)
