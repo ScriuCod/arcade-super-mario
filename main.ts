@@ -234,6 +234,25 @@ e e e e e e e e e e e e e e e e
 . . . . 7 . . . . . . . . . 7 . 
 7 7 . . 7 7 7 . . . . . 7 7 . . 
 `
+    //% blockIdentity=images._tile
+    export const tile12 = img`
+5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
+5 . . . . . . . . . . . . . . 5 
+5 . . . . . . . . . . . . . . 5 
+5 . . . . . . . . . . . . . . 5 
+5 . . . . . 4 2 4 . . . . . . 5 
+5 . . . . . 4 4 4 . . . . . . 5 
+5 . . . . . . 7 . . . . . . . 5 
+5 . . . . . . 7 . . . . . . . 5 
+5 . . . . 7 7 7 7 7 . . . . . 5 
+5 . . . . . 7 7 7 . . . . . . 5 
+5 . . . . . . . . . . . . . . 5 
+5 . . . . . . . . . . . . . . 5 
+5 . . . . . . . . . . . . . . 5 
+5 . . . . . . . . . . . . . . 5 
+5 . . . . . . . . . . . . . . 5 
+5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
+`
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Turtle, function (sprite, otherSprite) {
     if (sprite.y - otherSprite.y < -10) {
@@ -286,7 +305,7 @@ e e e e e e e e e e e e e e e e
         tiles.placeOnTile(sprMushroom, value)
         tiles.setTileAt(value, myTiles.tile0)
     }
-    for (let value of tiles.getTilesByType(myTiles.tile1)) {
+    for (let value2 of tiles.getTilesByType(myTiles.tile1)) {
         sprBrick = sprites.create(img`
 e e e e e e e e e e e e e e e e 
 e 4 4 4 4 e 4 4 4 4 4 4 4 4 4 e 
@@ -305,9 +324,9 @@ e 4 4 4 4 4 4 4 e 4 4 4 4 4 4 e
 e 4 4 4 4 4 4 4 e 4 4 4 4 4 4 e 
 e e e e e e e e e e e e e e e e 
 `, SpriteKind.Bricks)
-        tiles.placeOnTile(sprBrick, value)
+        tiles.placeOnTile(sprBrick, value2)
     }
-    for (let value of tiles.getTilesByType(myTiles.tile11)) {
+    for (let value3 of tiles.getTilesByType(myTiles.tile11)) {
         sprTurtle = sprites.create(img`
 . . . . . . . . . . . f f . . . 
 . . . . . . . . . . f 1 1 f . . 
@@ -336,8 +355,8 @@ f f f f f f . f f f f f f f . .
         sprTurtle.ay = 220
         sprites.setDataBoolean(sprTurtle, "moving", true)
         sprites.setDataNumber(sprTurtle, "interaction", 0)
-        tiles.placeOnTile(sprTurtle, value)
-        tiles.setTileAt(value, myTiles.tile0)
+        tiles.placeOnTile(sprTurtle, value3)
+        tiles.setTileAt(value3, myTiles.tile0)
     }
     sprSecret = sprites.create(img`
 e e e e e e e e e e e e e e e e 
@@ -379,7 +398,7 @@ function initMap () {
     if (level == 1) {
         scene.setBackgroundColor(11)
         tiles.setTilemap(tiles.createTilemap(
-            hex`5000080005000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000500000000030a03000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000050000000000000000000000000505000005000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005001100120000090009000905050500000505090000080900000000080012001200000900090009000900090000000000000000000000000000000000000000000000000000000000000000000000000202020202020202020202020202060000070202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202`,
+            hex`5000080005000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000500000000031303000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000050000000000000000000000000505000005000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005001100120000090009000905050500000505090000080900000000080012001200000900090009000900090000000000000000000000000000000000000000000000000000000000000000000000000202020202020202020202020202060000070202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202`,
             img`
 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
@@ -390,7 +409,7 @@ function initMap () {
 2 . . . . . . . . . . . 2 2 2 . . 2 2 . . . 2 . . . . . 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 . . 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
 `,
-            [myTiles.tile0,sprites.castle.tilePath6,sprites.castle.tilePath2,myTiles.tile1,sprites.dungeon.stairLarge,sprites.dungeon.floorLight2,sprites.castle.tilePath3,sprites.castle.tilePath1,myTiles.tile2,myTiles.tile3,myTiles.tile4,myTiles.tile5,myTiles.tile6,myTiles.tile7,sprites.builtin.brick,myTiles.tile8,myTiles.tile9,myTiles.tile10,myTiles.tile11],
+            [myTiles.tile0,sprites.castle.tilePath6,sprites.castle.tilePath2,myTiles.tile1,sprites.dungeon.stairLarge,sprites.dungeon.floorLight2,sprites.castle.tilePath3,sprites.castle.tilePath1,myTiles.tile2,myTiles.tile3,myTiles.tile4,myTiles.tile5,myTiles.tile6,myTiles.tile7,sprites.builtin.brick,myTiles.tile8,myTiles.tile9,myTiles.tile10,myTiles.tile11,myTiles.tile12],
             TileScale.Sixteen
         ))
     }
@@ -421,8 +440,8 @@ function initPlayer () {
     controller.moveSprite(mario, 100, 0)
     tiles.placeOnRandomTile(mario, myTiles.tile10)
     scene.cameraFollowSprite(mario)
-    for (let value of tiles.getTilesByType(myTiles.tile10)) {
-        tiles.setTileAt(value, myTiles.tile0)
+    for (let value4 of tiles.getTilesByType(myTiles.tile10)) {
+        tiles.setTileAt(value4, myTiles.tile0)
     }
     marioStarting()
 }
