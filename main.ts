@@ -281,7 +281,7 @@ f 1 1 1 f 7 7 7 7 7 7 f 1 1 1 f
     }
 })
 function initMapElements () {
-    for (let value of tiles.getTilesByType(myTiles.tile3)) {
+    for (let mushroom of tiles.getTilesByType(myTiles.tile3)) {
         sprMushroom = sprites.create(img`
 . . . . . . e e e e . . . . . . 
 . . . . . e e e e e e . . . . . 
@@ -302,10 +302,10 @@ e e e e e e e e e e e e e e e e
 `, SpriteKind.Mushroom)
         sprMushroom.vx = -120
         sprMushroom.ay = 220
-        tiles.placeOnTile(sprMushroom, value)
-        tiles.setTileAt(value, myTiles.tile0)
+        tiles.placeOnTile(sprMushroom, mushroom)
+        tiles.setTileAt(mushroom, myTiles.tile0)
     }
-    for (let value2 of tiles.getTilesByType(myTiles.tile1)) {
+    for (let brick of tiles.getTilesByType(myTiles.tile1)) {
         sprBrick = sprites.create(img`
 e e e e e e e e e e e e e e e e 
 e 4 4 4 4 e 4 4 4 4 4 4 4 4 4 e 
@@ -324,9 +324,9 @@ e 4 4 4 4 4 4 4 e 4 4 4 4 4 4 e
 e 4 4 4 4 4 4 4 e 4 4 4 4 4 4 e 
 e e e e e e e e e e e e e e e e 
 `, SpriteKind.Bricks)
-        tiles.placeOnTile(sprBrick, value2)
+        tiles.placeOnTile(sprBrick, brick)
     }
-    for (let value3 of tiles.getTilesByType(myTiles.tile11)) {
+    for (let turtle of tiles.getTilesByType(myTiles.tile11)) {
         sprTurtle = sprites.create(img`
 . . . . . . . . . . . f f . . . 
 . . . . . . . . . . f 1 1 f . . 
@@ -355,10 +355,11 @@ f f f f f f . f f f f f f f . .
         sprTurtle.ay = 220
         sprites.setDataBoolean(sprTurtle, "moving", true)
         sprites.setDataNumber(sprTurtle, "interaction", 0)
-        tiles.placeOnTile(sprTurtle, value3)
-        tiles.setTileAt(value3, myTiles.tile0)
+        tiles.placeOnTile(sprTurtle, turtle)
+        tiles.setTileAt(turtle, myTiles.tile0)
     }
-    sprSecret = sprites.create(img`
+    for (let flower of tiles.getTilesByType(myTiles.tile12)) {
+        sprSecret = sprites.create(img`
 e e e e e e e e e e e e e e e e 
 e 5 5 5 5 5 5 5 5 5 5 5 5 5 5 e 
 e 5 e 5 5 5 4 4 4 4 5 5 5 e 5 e 
@@ -376,7 +377,9 @@ e 5 e 5 5 5 5 5 f f 5 5 5 e 5 e
 e 5 5 5 5 5 5 5 5 5 5 5 5 5 5 e 
 e e e e e e e e e e e e e e e e 
 `, SpriteKind.Secret)
-    tiles.placeOnRandomTile(sprSecret, myTiles.tile4)
+        tiles.placeOnTile(sprTurtle, flower)
+        tiles.setTileAt(flower, myTiles.tile0)
+    }
 }
 scene.onHitWall(SpriteKind.Mushroom, function (sprite) {
     if (sprite.isHittingTile(CollisionDirection.Right)) {
