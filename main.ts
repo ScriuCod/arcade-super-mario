@@ -4,6 +4,7 @@ namespace SpriteKind {
     export const Secret = SpriteKind.create()
     export const Turtle = SpriteKind.create()
     export const Carapace = SpriteKind.create()
+    export const BricksLower = SpriteKind.create()
 }
 namespace myTiles {
     //% blockIdentity=images._tile
@@ -253,6 +254,25 @@ e e e e e e e e e e e e e e e e
 5 . . . . . . . . . . . . . . 5 
 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
 `
+    //% blockIdentity=images._tile
+    export const tile13 = img`
+4 . 4 4 4 . e . 4 4 4 . . e e . 
+. e e . . . . . . . e . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+`
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Turtle, function (sprite, otherSprite) {
     if (sprite.y - otherSprite.y < -10) {
@@ -305,7 +325,9 @@ e e e e e e e e e e e e e e e e
         tiles.placeOnTile(sprMushroom, mushroom)
         tiles.setTileAt(mushroom, myTiles.tile0)
     }
+    countBricks = 0
     for (let brick of tiles.getTilesByType(myTiles.tile1)) {
+        countBricks += 1
         sprBrick = sprites.create(img`
 e e e e e e e e e e e e e e e e 
 e 4 4 4 4 e 4 4 4 4 4 4 4 4 4 e 
@@ -325,6 +347,28 @@ e 4 4 4 4 4 4 4 e 4 4 4 4 4 4 e
 e e e e e e e e e e e e e e e e 
 `, SpriteKind.Bricks)
         tiles.placeOnTile(sprBrick, brick)
+        sprBrickLowerSide = sprites.create(img`
+4 . . . . 4 4 4 . e . 4 4 4 . 4 
+. 4 4 . . e 4 . . . . e . 4 . e 
+e . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+`, SpriteKind.BricksLower)
+        sprites.setDataNumber(sprBrick, "brickNr", countBricks)
+        sprites.setDataNumber(sprBrickLowerSide, "brickNr", countBricks)
+        sprBrickLowerSide.setPosition(sprBrick.x, sprBrick.y + 16)
+        console.log(brick)
     }
     for (let turtle of tiles.getTilesByType(myTiles.tile11)) {
         sprTurtle = sprites.create(img`
@@ -377,10 +421,17 @@ e 5 e 5 5 5 5 5 f f 5 5 5 e 5 e
 e 5 5 5 5 5 5 5 5 5 5 5 5 5 5 e 
 e e e e e e e e e e e e e e e e 
 `, SpriteKind.Secret)
-        tiles.placeOnTile(sprTurtle, flower)
+        tiles.placeOnTile(sprSecret, flower)
         tiles.setTileAt(flower, myTiles.tile0)
     }
 }
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Bricks, function (sprite, otherSprite) {
+    if (sprite.y < otherSprite.bottom) {
+        otherSprite.destroy(effects.disintegrate, 200)
+    }
+    console.logValue("brick-x", sprites.readDataNumber(otherSprite, "location-x"))
+    console.logValue("brick-y", sprites.readDataNumber(otherSprite, "location-y"))
+})
 scene.onHitWall(SpriteKind.Mushroom, function (sprite) {
     if (sprite.isHittingTile(CollisionDirection.Right)) {
         sprite.vx = -100
@@ -389,6 +440,9 @@ scene.onHitWall(SpriteKind.Mushroom, function (sprite) {
         sprite.vx = 100
         flipSprite(sprite)
     }
+})
+scene.onOverlapTile(SpriteKind.Player, myTiles.tile1, function (sprite, location) {
+    tiles.setWallAt(location, true)
 })
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     if (sprites.readDataString(mario, "direction") == "right") {
@@ -401,18 +455,18 @@ function initMap () {
     if (level == 1) {
         scene.setBackgroundColor(11)
         tiles.setTilemap(tiles.createTilemap(
-            hex`5000080005000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000500000000031303000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000050000000000000000000000000505000005000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005001100120000090009000905050500000505090000080900000000080012001200000900090009000900090000000000000000000000000000000000000000000000000000000000000000000000000202020202020202020202020202060000070202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202`,
+            hex`5000080005000000001500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000500000000190000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000050000000015000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005000000001900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001518151815031303000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000050000000000000000000000000005000005000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005001100000000000000000005050500000505090000080900000000080012001200000900090009000900090000000000000000000000000000000000000000000000000000000000000000000000000202020202020202020202020202060000070202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202`,
             img`
 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
-2 . . . . . . . . . . . . . 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
+2 . . . . 2 . 2 . . . . . . 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 2 . . . . . . . . . . . . 2 2 . . 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 2 . . . . . . . . . . . 2 2 2 . . 2 2 . . . 2 . . . . . 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 . . 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
 `,
-            [myTiles.tile0,sprites.castle.tilePath6,sprites.castle.tilePath2,myTiles.tile1,sprites.dungeon.stairLarge,sprites.dungeon.floorLight2,sprites.castle.tilePath3,sprites.castle.tilePath1,myTiles.tile2,myTiles.tile3,myTiles.tile4,myTiles.tile5,myTiles.tile6,myTiles.tile7,sprites.builtin.brick,myTiles.tile8,myTiles.tile9,myTiles.tile10,myTiles.tile11,myTiles.tile12],
+            [myTiles.tile0,sprites.castle.tilePath6,sprites.castle.tilePath2,myTiles.tile1,sprites.dungeon.stairLarge,sprites.dungeon.floorLight2,sprites.castle.tilePath3,sprites.castle.tilePath1,myTiles.tile2,myTiles.tile3,myTiles.tile4,myTiles.tile5,myTiles.tile6,myTiles.tile7,sprites.builtin.brick,myTiles.tile8,myTiles.tile9,myTiles.tile10,myTiles.tile11,myTiles.tile12,myTiles.tile13,sprites.dungeon.floorDark0,sprites.castle.tilePath5,sprites.dungeon.floorMixed,sprites.dungeon.greenOuterNorth1,sprites.builtin.forestTiles0],
             TileScale.Sixteen
         ))
     }
@@ -621,11 +675,27 @@ function marioStarting () {
     }
     sprites.setDataBoolean(mario, "starting", false)
 }
+sprites.onOverlap(SpriteKind.Player, SpriteKind.BricksLower, function (sprite, otherSprite) {
+    console.logValue("destroy brick:", sprites.readDataNumber(otherSprite, "brickNr"))
+    brickList = sprites.allOfKind(SpriteKind.Bricks)
+    for (let value of brickList) {
+        if (sprites.readDataNumber(value, "brickNr") == sprites.readDataNumber(otherSprite, "brickNr")) {
+            value.destroy(effects.disintegrate, 200)
+            otherSprite.destroy(effects.disintegrate, 200)
+            tiles.setWallAt(tiles.getTileLocation(Math.round(value.x / 16) - 1, Math.round(value.y / 16) - 1), false)
+            console.logValue("col", Math.round(value.x / 16) - 1)
+            console.logValue("row", Math.round(value.y / 16) - 1)
+        }
+    }
+})
+let brickList: Sprite[] = []
 let myPicture: Image = null
 let mario: Sprite = null
 let sprSecret: Sprite = null
 let sprTurtle: Sprite = null
+let sprBrickLowerSide: Sprite = null
 let sprBrick: Sprite = null
+let countBricks = 0
 let sprMushroom: Sprite = null
 let level = 0
 level = 1
