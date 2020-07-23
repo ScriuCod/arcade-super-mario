@@ -5,6 +5,8 @@ namespace SpriteKind {
     export const Turtle = SpriteKind.create()
     export const Carapace = SpriteKind.create()
     export const BricksLower = SpriteKind.create()
+    export const secretFlower = SpriteKind.create()
+    export const secretFlowerLower = SpriteKind.create()
 }
 namespace myTiles {
     //% blockIdentity=images._tile
@@ -346,6 +348,7 @@ e 4 4 4 4 4 4 4 e 4 4 4 4 4 4 e
 e 4 4 4 4 4 4 4 e 4 4 4 4 4 4 e 
 e e e e e e e e e e e e e e e e 
 `, SpriteKind.Bricks)
+        tiles.setWallAt(brick, true)
         tiles.placeOnTile(sprBrick, brick)
         tiles.setTileAt(brick, myTiles.tile0)
         sprBrickLowerSide = sprites.create(img`
@@ -366,10 +369,9 @@ e . . . . . . . . . . . . . . .
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
 `, SpriteKind.BricksLower)
-        sprites.setDataNumber(sprBrick, "brickNr", countBricks)
-        sprites.setDataNumber(sprBrickLowerSide, "brickNr", countBricks)
+        sprites.setDataNumber(sprBrick, "id", countBricks)
+        sprites.setDataNumber(sprBrickLowerSide, "id", countBricks)
         sprBrickLowerSide.setPosition(sprBrick.x, sprBrick.y + 16)
-        console.log(brick)
     }
     for (let turtle of tiles.getTilesByType(myTiles.tile11)) {
         sprTurtle = sprites.create(img`
@@ -403,7 +405,27 @@ f f f f f f . f f f f f f f . .
         tiles.placeOnTile(sprTurtle, turtle)
         tiles.setTileAt(turtle, myTiles.tile0)
     }
+    countFlowers = 0
     for (let flower of tiles.getTilesByType(myTiles.tile12)) {
+        countFlowers += 1
+        sprSecretFlower = sprites.create(img`
+. . . . 1 1 1 1 1 1 1 1 . . . . 
+. . 1 1 1 1 1 1 1 1 1 1 1 1 . . 
+. 1 1 1 4 4 4 4 4 4 4 4 1 1 1 . 
+1 1 4 4 4 2 2 2 2 2 2 4 4 4 1 1 
+1 1 4 4 4 2 2 2 2 2 2 4 4 4 1 1 
+. 1 1 1 4 4 4 4 4 4 4 4 1 1 1 . 
+. . 1 1 1 1 1 1 1 1 1 1 1 1 . . 
+. . . . 1 1 1 1 1 1 1 1 . . . . 
+. . . . . . . 7 7 . . . . . . . 
+7 7 7 . . . . 7 7 . . . . 7 7 7 
+. 7 7 7 . . . 7 7 . . . 7 7 7 . 
+. 7 7 7 7 . . 7 7 . . 7 7 7 7 . 
+. . 7 7 7 7 . 7 7 . 7 7 7 7 . . 
+. . 7 7 7 7 . 7 7 . 7 7 7 7 . . 
+. . . 7 7 7 7 7 7 7 7 7 7 . . . 
+. . . . . . 7 7 7 7 . . . . . . 
+`, SpriteKind.secretFlower)
         sprSecret = sprites.create(img`
 e e e e e e e e e e e e e e e e 
 e 5 5 5 5 5 5 5 5 5 5 5 5 5 5 e 
@@ -422,17 +444,34 @@ e 5 e 5 5 5 5 5 f f 5 5 5 e 5 e
 e 5 5 5 5 5 5 5 5 5 5 5 5 5 5 e 
 e e e e e e e e e e e e e e e e 
 `, SpriteKind.Secret)
+        sprSecretFlowerLower = sprites.create(img`
+4 . . . . 4 4 4 . e . 4 4 4 . 4 
+. 4 4 . . e 4 . . . . e . 4 . e 
+e . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+`, SpriteKind.secretFlowerLower)
+        sprites.setDataNumber(sprSecret, "id", countFlowers)
+        sprites.setDataNumber(sprSecretFlower, "id", countFlowers)
+        sprites.setDataNumber(sprSecretFlowerLower, "id", countFlowers)
+        tiles.setWallAt(flower, true)
         tiles.placeOnTile(sprSecret, flower)
+        tiles.placeOnTile(sprSecretFlower, flower)
+        sprSecretFlowerLower.setPosition(sprSecret.x, sprSecret.y + 16)
         tiles.setTileAt(flower, myTiles.tile0)
     }
 }
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Bricks, function (sprite, otherSprite) {
-    if (sprite.y < otherSprite.bottom) {
-        otherSprite.destroy(effects.disintegrate, 200)
-    }
-    console.logValue("brick-x", sprites.readDataNumber(otherSprite, "location-x"))
-    console.logValue("brick-y", sprites.readDataNumber(otherSprite, "location-y"))
-})
 scene.onHitWall(SpriteKind.Mushroom, function (sprite) {
     if (sprite.isHittingTile(CollisionDirection.Right)) {
         sprite.vx = -100
@@ -441,9 +480,6 @@ scene.onHitWall(SpriteKind.Mushroom, function (sprite) {
         sprite.vx = 100
         flipSprite(sprite)
     }
-})
-scene.onOverlapTile(SpriteKind.Player, myTiles.tile1, function (sprite, location) {
-    tiles.setWallAt(location, true)
 })
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     if (sprites.readDataString(mario, "direction") == "right") {
@@ -462,7 +498,7 @@ function initMap () {
 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
-2 . . . . 2 . 2 . . . . . . 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
+2 . . . . . . . . . . . . . 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 2 . . . . . . . . . . . . 2 2 . . 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 2 . . . . . . . . . . . 2 2 2 . . 2 2 . . . 2 . . . . . 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 . . 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
@@ -473,6 +509,19 @@ function initMap () {
     }
     initMapElements()
 }
+sprites.onOverlap(SpriteKind.Player, SpriteKind.secretFlowerLower, function (sprite, otherSprite) {
+    listFlowers = sprites.allOfKind(SpriteKind.secretFlower)
+    for (let value of listFlowers) {
+        if (sprites.readDataNumber(value, "id") == sprites.readDataNumber(otherSprite, "id")) {
+            otherSprite.destroy(effects.disintegrate, 200)
+            pause(700)
+            for (let index = 0; index < 5; index++) {
+                value.y += -3.2
+                pause(45)
+            }
+        }
+    }
+})
 function initPlayer () {
     mario = sprites.create(img`
 . . . . 2 2 2 2 2 2 . . . . . . 
@@ -629,24 +678,6 @@ f 1 1 1 f 7 7 7 7 7 7 f 1 1 1 f
 . . . . f f 1 1 1 1 f f . . . . 
 . . . . . . f f f f . . . . . . 
 `, SpriteKind.Turtle)
-    sprMushroom = sprites.create(img`
-. . . . 1 1 1 1 1 1 1 1 . . . . 
-. . 1 1 1 1 1 1 1 1 1 1 1 1 . . 
-. 1 1 1 4 4 4 4 4 4 4 4 1 1 1 . 
-1 1 4 4 4 2 2 2 2 2 2 4 4 4 1 1 
-1 1 4 4 4 2 2 2 2 2 2 4 4 4 1 1 
-. 1 1 1 4 4 4 4 4 4 4 4 1 1 1 . 
-. . 1 1 1 1 1 1 1 1 1 1 1 1 . . 
-. . . . 1 1 1 1 1 1 1 1 . . . . 
-. . . . . . . 7 7 . . . . . . . 
-7 7 7 . . . . 7 7 . . . . 7 7 7 
-. 7 7 7 . . . 7 7 . . . 7 7 7 . 
-. 7 7 7 7 . . 7 7 . . 7 7 7 7 . 
-. . 7 7 7 7 . 7 7 . 7 7 7 7 . . 
-. . 7 7 7 7 . 7 7 . 7 7 7 7 . . 
-. . . 7 7 7 7 7 7 7 7 7 7 . . . 
-. . . . . . 7 7 7 7 . . . . . . 
-`, SpriteKind.Turtle)
 }
 sprites.onOverlap(SpriteKind.Carapace, SpriteKind.Mushroom, function (sprite, otherSprite) {
     if (sprites.readDataBoolean(sprite, "moving")) {
@@ -677,26 +708,23 @@ function marioStarting () {
     sprites.setDataBoolean(mario, "starting", false)
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.BricksLower, function (sprite, otherSprite) {
-    console.logValue("destroy brick:", sprites.readDataNumber(otherSprite, "brickNr"))
-    brickList = sprites.allOfKind(SpriteKind.Bricks)
-    for (let value of brickList) {
-        if (sprites.readDataNumber(value, "brickNr") == sprites.readDataNumber(otherSprite, "brickNr")) {
+    listBricks = sprites.allOfKind(SpriteKind.Bricks)
+    for (let value of listBricks) {
+        if (sprites.readDataNumber(value, "id") == sprites.readDataNumber(otherSprite, "id")) {
             value.destroy(effects.disintegrate, 200)
             otherSprite.destroy(effects.disintegrate, 200)
-            tileCol = Math.round(value.x / 16) - 1
-            tileRow = Math.round(value.y / 16) - 1
-            tiles.setWallAt(tiles.getTileLocation(tileCol, tileRow), false)
-            console.logValue("col", tileCol)
-            console.logValue("row", tileRow)
+            tiles.setWallAt(tiles.getTileLocation(Math.round(value.x / 16) - 1, Math.round(value.y / 16) - 1), false)
         }
     }
 })
-let tileRow = 0
-let tileCol = 0
-let brickList: Sprite[] = []
+let listBricks: Sprite[] = []
 let myPicture: Image = null
+let listFlowers: Sprite[] = []
 let mario: Sprite = null
+let sprSecretFlowerLower: Sprite = null
 let sprSecret: Sprite = null
+let sprSecretFlower: Sprite = null
+let countFlowers = 0
 let sprTurtle: Sprite = null
 let sprBrickLowerSide: Sprite = null
 let sprBrick: Sprite = null
