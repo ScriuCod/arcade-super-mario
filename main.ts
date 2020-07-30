@@ -203,14 +203,14 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.secretFlowerLower, function (spr
 })
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     sprMunition = sprites.create(img`
-        . 2 . 2 2 . . . 
-        . . 2 . 2 2 2 . 
-        2 . . . 2 4 2 2 
-        . . 2 2 2 4 4 2 
-        . 2 2 4 4 1 4 2 
-        . 2 4 4 1 4 2 2 
-        . 2 2 4 4 2 2 . 
-        . . 2 2 2 2 . . 
+        . . . . . . . . 
+        . . . . . . . . 
+        . . . . . . . . 
+        . . . . . . . . 
+        . 2 . . . . . . 
+        . 2 . . . 2 2 . 
+        . 2 . . 2 2 . . 
+        . . 2 2 2 . . . 
         `, SpriteKind.Player)
 })
 scene.onHitWall(SpriteKind.Carapace, function (sprite, undefined) {
