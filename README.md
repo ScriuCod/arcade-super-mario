@@ -1,5 +1,10 @@
 # arcade-super-mario ![Build status badge](https://github.com/ngabyn/arcade-super-mario/workflows/MakeCode/badge.svg)
 
+# This is our to do list: 
+* A boss - I want to make a Robot boss that can shoot bombs and mystery boxes And gets angrier and stronger every time you attack him. 
+* A castle - A castle with a flag that mario pulls up when he finishes a level
+* A sad ending - Mario is about to kiss the princess when a rock falls on her head. She dies and mario gets all her riches.
+
 ## Use this extension
 
 This repository can be added as an **extension** in MakeCode.
