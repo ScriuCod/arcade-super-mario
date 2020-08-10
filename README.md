@@ -1,8 +1,5 @@
 # arcade-super-mario ![Build status badge](https://github.com/ngabyn/arcade-super-mario/workflows/MakeCode/badge.svg)
 
-# Sample todo list
-[ ] Want to make world a better place
-
 ## Use this extension
 
 This repository can be added as an **extension** in MakeCode.
