@@ -7,7 +7,11 @@ namespace SpriteKind {
     export const BricksLower = SpriteKind.create()
     export const secretFlower = SpriteKind.create()
     export const secretFlowerLower = SpriteKind.create()
+    export const Munition = SpriteKind.create()
 }
+scene.onHitWall(SpriteKind.Munition, function (sprite, location) {
+    sprite.image.flipY()
+})
 function initMapElements () {
     for (let mushroom of tiles.getTilesByType(myTiles.tile3)) {
         sprMushroom = sprites.create(img`
@@ -190,37 +194,42 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.BricksLower, function (sprite, o
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.secretFlowerLower, function (sprite, otherSprite) {
     listFlowers = sprites.allOfKind(SpriteKind.secretFlower)
-    for (let value of listFlowers) {
-        if (sprites.readDataNumber(value, "id") == sprites.readDataNumber(otherSprite, "id")) {
+    for (let value2 of listFlowers) {
+        if (sprites.readDataNumber(value2, "id") == sprites.readDataNumber(otherSprite, "id")) {
             otherSprite.destroy(effects.disintegrate, 200)
             pause(700)
             for (let index = 0; index < 5; index++) {
-                value.y += -3.2
+                value2.y += -3.2
                 pause(45)
             }
         }
     }
 })
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
-    sprMunition = sprites.create(img`
-        . . . . . . . . 
-        . . . . . . . . 
-        . . . . . . . . 
-        . . . . . . . . 
-        . 2 . . . . . . 
-        . 2 . . . 2 2 . 
-        . 2 . . 2 2 . . 
-        . . 2 2 2 . . . 
-        `, SpriteKind.Player)
-})
-scene.onHitWall(SpriteKind.Carapace, function (sprite, undefined) {
-    if (sprite.isHittingTile(CollisionDirection.Right)) {
-        sprite.vx = -240
-        flipSprite(sprite)
-    } else if (sprite.isHittingTile(CollisionDirection.Left)) {
-        sprite.vx = 240
-        flipSprite(sprite)
+    if (game.runtime() - sprites.readDataNumber(mario, "intMunition") > 500 && sprites.readDataBoolean(mario, "super")) {
+        sprites.setDataNumber(mario, "intMunition", game.runtime())
+        sprMunition = sprites.create(img`
+            . 2 . 2 2 . . . 
+            . . 2 . 2 2 2 . 
+            2 . . . 2 4 2 2 
+            . . 2 2 2 4 4 2 
+            . 2 2 4 4 1 4 2 
+            . 2 4 4 1 4 2 2 
+            . 2 2 4 4 2 2 . 
+            . . 2 2 2 2 . . 
+            `, SpriteKind.Munition)
+        sprMunition.ay = 200
+        sprMunition.setPosition(mario.x, mario.y - 7)
+        sprMunition.setFlag(SpriteFlag.BounceOnWall, true)
+        if (sprites.readDataString(mario, "direction") == "right") {
+            sprMunition.vx = 100
+        } else {
+            sprMunition.vx = -100
+        }
     }
+})
+scene.onHitWall(SpriteKind.Mushroom, function (sprite, undefined) {
+    EnemyHitsWall(sprite, 100)
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (mario.vy == 0) {
@@ -244,13 +253,7 @@ function initMap () {
     initMapElements()
 }
 scene.onHitWall(SpriteKind.Turtle, function (sprite, undefined) {
-    if (sprite.isHittingTile(CollisionDirection.Right)) {
-        sprite.vx = -60
-        flipSprite(sprite)
-    } else if (sprite.isHittingTile(CollisionDirection.Left)) {
-        sprite.vx = 60
-        flipSprite(sprite)
-    }
+    EnemyHitsWall(sprite, 50)
 })
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     if (sprites.readDataString(mario, "direction") == "right") {
@@ -270,6 +273,15 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Carapace, function (sprite, othe
         }
     }
 })
+function removeLife (mySprite: Sprite) {
+    if (sprites.readDataBoolean(mario, "starting") == false && info.life() > 1) {
+        marioStarting()
+        info.changeLifeBy(-1)
+    } else if (sprites.readDataBoolean(mario, "starting") == false && info.life() == 1) {
+        marioDie()
+        info.changeLifeBy(-1)
+    }
+}
 function initPlayer () {
     mario = sprites.create(img`
         . . . . 2 2 2 2 2 2 . . . . . . 
@@ -290,6 +302,8 @@ function initPlayer () {
         . e e e e . . . . e e e e . . . 
         `, SpriteKind.Player)
     sprites.setDataString(mario, "direction", "right")
+    sprites.setDataNumber(mario, "intMunition", game.runtime())
+    sprites.setDataBoolean(mario, "super", false)
     info.setLife(3)
     mario.ay = 220
     controller.moveSprite(mario, 100, 0)
@@ -304,21 +318,22 @@ info.onCountdownEnd(function () {
     playerBlink(3)
     mario.image.replace(7, 2)
     mario.image.replace(1, 8)
+    sprites.setDataBoolean(mario, "super", false)
     playerBlink(3)
-})
-scene.onHitWall(SpriteKind.Mushroom, function (sprite, undefined) {
-    if (sprite.isHittingTile(CollisionDirection.Right)) {
-        sprite.vx = -100
-        flipSprite(sprite)
-    } else if (sprite.isHittingTile(CollisionDirection.Left)) {
-        sprite.vx = 100
-        flipSprite(sprite)
-    }
 })
 sprites.onOverlap(SpriteKind.Carapace, SpriteKind.Mushroom, function (sprite, otherSprite) {
     if (sprites.readDataBoolean(sprite, "moving")) {
         otherSprite.ay = -200
         otherSprite.destroy(effects.confetti, 200)
+    }
+})
+scene.onHitWall(SpriteKind.Carapace, function (sprite, undefined) {
+    if (sprite.isHittingTile(CollisionDirection.Right)) {
+        sprite.vx = -240
+        flipSprite(sprite)
+    } else if (sprite.isHittingTile(CollisionDirection.Left)) {
+        sprite.vx = 240
+        flipSprite(sprite)
     }
 })
 controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -357,6 +372,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.secretFlower, function (sprite, 
     playerBlink(3)
     sprite.image.replace(2, 7)
     sprite.image.replace(8, 1)
+    sprites.setDataBoolean(mario, "super", true)
     info.startCountdown(15)
     playerBlink(3)
 })
@@ -448,12 +464,23 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Turtle, function (sprite, otherS
         otherSprite.setKind(SpriteKind.Carapace)
         sprites.setDataNumber(otherSprite, "interaction", game.runtime())
         sprites.setDataBoolean(otherSprite, "moving", false)
+    } else {
+        removeLife(sprite)
     }
 })
 function flipSprite (currentSprite: Sprite) {
     myPicture = currentSprite.image
     myPicture.flipX()
     currentSprite.setImage(myPicture)
+}
+function EnemyHitsWall (enemySprite: Sprite, speed: number) {
+    if (enemySprite.isHittingTile(CollisionDirection.Right)) {
+        enemySprite.vx = speed * -1
+        flipSprite(enemySprite)
+    } else if (enemySprite.isHittingTile(CollisionDirection.Left)) {
+        enemySprite.vx = speed
+        flipSprite(enemySprite)
+    }
 }
 function marioStarting () {
     sprites.setDataBoolean(mario, "starting", true)
@@ -464,18 +491,12 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Mushroom, function (sprite, othe
     if (sprite.y < otherSprite.top) {
         otherSprite.destroy(effects.trail, 500)
     } else {
-        if (sprites.readDataBoolean(mario, "starting") == false && info.life() > 1) {
-            marioStarting()
-            info.changeLifeBy(-1)
-        } else if (sprites.readDataBoolean(mario, "starting") == false && info.life() == 1) {
-            marioDie()
-            info.changeLifeBy(-1)
-        }
+        removeLife(sprite)
     }
 })
 let myPicture: Image = null
-let mario: Sprite = null
 let sprMunition: Sprite = null
+let mario: Sprite = null
 let listFlowers: Sprite[] = []
 let listBricks: Sprite[] = []
 let sprSecretFlowerLower: Sprite = null
