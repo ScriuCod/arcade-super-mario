@@ -9,6 +9,10 @@ namespace SpriteKind {
     export const secretFlowerLower = SpriteKind.create()
     export const Munition = SpriteKind.create()
 }
+sprites.onOverlap(SpriteKind.Munition, SpriteKind.Turtle, function (sprite, otherSprite) {
+    sprite.destroy()
+    transformTurtleToCarapace(otherSprite)
+})
 scene.onHitWall(SpriteKind.Munition, function (sprite, location) {
     sprite.image.flipY()
 })
@@ -228,8 +232,12 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
         }
     }
 })
+sprites.onOverlap(SpriteKind.Munition, SpriteKind.Mushroom, function (sprite, otherSprite) {
+    sprite.destroy()
+    otherSprite.destroy(effects.trail, 500)
+})
 scene.onHitWall(SpriteKind.Mushroom, function (sprite, undefined) {
-    EnemyHitsWall(sprite, 100)
+    enemyHitsWall(sprite, 100)
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (mario.vy == 0) {
@@ -239,7 +247,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
 function initMap () {
     if (level == 1) {
         scene.setBackgroundColor(11)
-        tiles.setTilemap(tiles.createTilemap(hex`5000080005000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000500000000031303000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000050000000000000000000000000505000005000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005001100000000000000000005050500000505090000080900000000080012001200000900090009000900090000000000000000000000000000000000000000000000000000000000000000000000000202020202020202020202020202060000070202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202`, img`
+        tiles.setTilemap(tiles.createTilemap(hex`5000080003000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000030000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000300000000020a02000000000000030000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000030000000000000000000000000303000003000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003000800000009000900000003030300000303070000060700000000060009000900000700070007000700070000000000000000000000000000000000000000000000000000000000000000000000000101010101010101010101010101040000050101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101`, img`
             2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
             2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
             2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
@@ -248,13 +256,22 @@ function initMap () {
             2 . . . . . . . . . . . . 2 2 . . 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
             2 . . . . . . . . . . . 2 2 2 . . 2 2 . . . 2 . . . . . 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
             2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 . . 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-            `, [myTiles.tile0,sprites.castle.tilePath6,sprites.castle.tilePath2,myTiles.tile1,sprites.dungeon.stairLarge,sprites.dungeon.floorLight2,sprites.castle.tilePath3,sprites.castle.tilePath1,myTiles.tile2,myTiles.tile3,myTiles.tile4,myTiles.tile5,myTiles.tile6,myTiles.tile7,sprites.builtin.brick,myTiles.tile8,myTiles.tile9,myTiles.tile10,myTiles.tile11,myTiles.tile12,myTiles.tile13,sprites.dungeon.floorDark0,sprites.castle.tilePath5,sprites.dungeon.floorMixed,sprites.dungeon.greenOuterNorth1,sprites.builtin.forestTiles0], TileScale.Sixteen))
+            `, [myTiles.tile0,sprites.castle.tilePath2,myTiles.tile1,sprites.dungeon.floorLight2,sprites.castle.tilePath3,sprites.castle.tilePath1,myTiles.tile2,myTiles.tile3,myTiles.tile10,myTiles.tile11,myTiles.tile12], TileScale.Sixteen))
     }
     initMapElements()
 }
 scene.onHitWall(SpriteKind.Turtle, function (sprite, undefined) {
-    EnemyHitsWall(sprite, 50)
+    enemyHitsWall(sprite, 50)
 })
+function enemyHitsWall (enemySprite: Sprite, speed: number) {
+    if (enemySprite.isHittingTile(CollisionDirection.Right)) {
+        enemySprite.vx = speed * -1
+        flipSprite(enemySprite)
+    } else if (enemySprite.isHittingTile(CollisionDirection.Left)) {
+        enemySprite.vx = speed
+        flipSprite(enemySprite)
+    }
+}
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     if (sprites.readDataString(mario, "direction") == "right") {
         sprites.setDataString(mario, "direction", "left")
@@ -442,28 +459,7 @@ function playerBlink (times: number) {
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Turtle, function (sprite, otherSprite) {
     if (sprite.y - otherSprite.y < -10) {
-        otherSprite.setImage(img`
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . f f f f f f . . . . . 
-            . . . . f f 7 7 7 7 f f . . . . 
-            . . . f 7 7 f f f f 7 7 f . . . 
-            . . f 7 7 f 7 7 7 7 f 7 7 f . . 
-            . f 7 f f 7 7 7 7 7 7 f f 7 f . 
-            f 7 7 7 7 f 7 7 7 7 f 7 7 7 7 f 
-            f 7 7 7 7 7 f f f f 7 7 7 7 7 f 
-            f f f 7 7 f 7 7 7 7 f 7 7 f f f 
-            1 1 f f f 7 7 7 7 7 7 f f f 1 1 
-            f 1 1 1 f 7 7 7 7 7 7 f 1 1 1 f 
-            . f f 1 1 f f f f f f 1 1 f f . 
-            . . . f 1 1 1 1 1 1 1 1 f . . . 
-            . . . . f f 1 1 1 1 f f . . . . 
-            . . . . . . f f f f . . . . . . 
-            `)
-        otherSprite.vx = 0
-        otherSprite.setKind(SpriteKind.Carapace)
-        sprites.setDataNumber(otherSprite, "interaction", game.runtime())
-        sprites.setDataBoolean(otherSprite, "moving", false)
+        transformTurtleToCarapace(otherSprite)
     } else {
         removeLife(sprite)
     }
@@ -472,15 +468,6 @@ function flipSprite (currentSprite: Sprite) {
     myPicture = currentSprite.image
     myPicture.flipX()
     currentSprite.setImage(myPicture)
-}
-function EnemyHitsWall (enemySprite: Sprite, speed: number) {
-    if (enemySprite.isHittingTile(CollisionDirection.Right)) {
-        enemySprite.vx = speed * -1
-        flipSprite(enemySprite)
-    } else if (enemySprite.isHittingTile(CollisionDirection.Left)) {
-        enemySprite.vx = speed
-        flipSprite(enemySprite)
-    }
 }
 function marioStarting () {
     sprites.setDataBoolean(mario, "starting", true)
@@ -493,6 +480,33 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Mushroom, function (sprite, othe
     } else {
         removeLife(sprite)
     }
+})
+function transformTurtleToCarapace (mySprite: Sprite) {
+    mySprite.setImage(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . f f f f f f . . . . . 
+        . . . . f f 7 7 7 7 f f . . . . 
+        . . . f 7 7 f f f f 7 7 f . . . 
+        . . f 7 7 f 7 7 7 7 f 7 7 f . . 
+        . f 7 f f 7 7 7 7 7 7 f f 7 f . 
+        f 7 7 7 7 f 7 7 7 7 f 7 7 7 7 f 
+        f 7 7 7 7 7 f f f f 7 7 7 7 7 f 
+        f f f 7 7 f 7 7 7 7 f 7 7 f f f 
+        1 1 f f f 7 7 7 7 7 7 f f f 1 1 
+        f 1 1 1 f 7 7 7 7 7 7 f 1 1 1 f 
+        . f f 1 1 f f f f f f 1 1 f f . 
+        . . . f 1 1 1 1 1 1 1 1 f . . . 
+        . . . . f f 1 1 1 1 f f . . . . 
+        . . . . . . f f f f . . . . . . 
+        `)
+    mySprite.vx = 0
+    mySprite.setKind(SpriteKind.Carapace)
+    sprites.setDataNumber(mySprite, "interaction", game.runtime())
+    sprites.setDataBoolean(mySprite, "moving", false)
+}
+sprites.onOverlap(SpriteKind.Carapace, SpriteKind.Turtle, function (sprite, otherSprite) {
+    transformTurtleToCarapace(otherSprite)
 })
 let myPicture: Image = null
 let sprMunition: Sprite = null
