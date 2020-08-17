@@ -8,6 +8,7 @@ namespace SpriteKind {
     export const secretFlower = SpriteKind.create()
     export const secretFlowerLower = SpriteKind.create()
     export const Munition = SpriteKind.create()
+    export const Coin = SpriteKind.create()
 }
 sprites.onOverlap(SpriteKind.Munition, SpriteKind.Turtle, function (sprite, otherSprite) {
     sprite.destroy()
@@ -185,6 +186,80 @@ function initMapElements () {
         sprSecretFlowerLower.setPosition(sprSecret.x, sprSecret.y + 16)
         tiles.setTileAt(flower, myTiles.tile0)
     }
+    for (let value of tiles.getTilesByType(myTiles.tile14)) {
+        Coin = sprites.create(img`
+            . . b b b b . . 
+            . b 5 5 5 5 b . 
+            b 5 d 3 3 d 5 b 
+            b 5 3 5 5 1 5 b 
+            c 5 3 5 5 1 d c 
+            c d d 1 1 d d c 
+            . f d d d d f . 
+            . . f f f f . . 
+            `, SpriteKind.Coin)
+        tiles.placeOnTile(Coin, value)
+        tiles.setTileAt(value, myTiles.transparency16)
+        animation.runImageAnimation(
+        Coin,
+        [img`
+            . . b b b b . . 
+            . b 5 5 5 5 b . 
+            b 5 d 3 3 d 5 b 
+            b 5 3 5 5 1 5 b 
+            c 5 3 5 5 1 d c 
+            c d d 1 1 d d c 
+            . f d d d d f . 
+            . . f f f f . . 
+            `,img`
+            . . b b b . . . 
+            . b 5 5 5 b . . 
+            b 5 d 3 d 5 b . 
+            b 5 3 5 1 5 b . 
+            c 5 3 5 1 d c . 
+            c 5 d 1 d d c . 
+            . f d d d f . . 
+            . . f f f . . . 
+            `,img`
+            . . . b b . . . 
+            . . b 5 5 b . . 
+            . b 5 d 1 5 b . 
+            . b 5 3 1 5 b . 
+            . c 5 3 1 d c . 
+            . c 5 1 d d c . 
+            . . f d d f . . 
+            . . . f f . . . 
+            `,img`
+            . . . b b . . . 
+            . . b 5 5 b . . 
+            . . b 1 1 b . . 
+            . . b 5 5 b . . 
+            . . b d d b . . 
+            . . c d d c . . 
+            . . c 3 3 c . . 
+            . . . f f . . . 
+            `,img`
+            . . . b b . . . 
+            . . b 5 5 b . . 
+            . b 5 1 d 5 b . 
+            . b 5 1 3 5 b . 
+            . c d 1 3 5 c . 
+            . c d d 1 5 c . 
+            . . f d d f . . 
+            . . . f f . . . 
+            `,img`
+            . . . b b b . . 
+            . . b 5 5 5 b . 
+            . b 5 d 3 d 5 b 
+            . b 5 1 5 3 5 b 
+            . c d 1 5 3 5 c 
+            . c d d 1 d 5 c 
+            . . f d d d f . 
+            . . . f f f . . 
+            `],
+        100,
+        true
+        )
+    }
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.BricksLower, function (sprite, otherSprite) {
     listBricks = sprites.allOfKind(SpriteKind.Bricks)
@@ -208,6 +283,10 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.secretFlowerLower, function (spr
             }
         }
     }
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Coin, function (sprite, otherSprite) {
+    otherSprite.destroy()
+    info.changeScoreBy(1)
 })
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     if (game.runtime() - sprites.readDataNumber(mario, "intMunition") > 500 && sprites.readDataBoolean(mario, "super")) {
@@ -247,7 +326,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
 function initMap () {
     if (level == 1) {
         scene.setBackgroundColor(11)
-        tiles.setTilemap(tiles.createTilemap(hex`5000080003000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000030000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000300000000020a02000000000000030000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000030000000000000000000000000303000003000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003000800000009000900000003030300000303070000060700000000060009000900000700070007000700070000000000000000000000000000000000000000000000000000000000000000000000000101010101010101010101010101040000050101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101`, img`
+        tiles.setTilemap(tiles.createTilemap(hex`50000800030000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003000000000000000000000000000b00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000030000000000000b0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000300000000020a0200000000000003000000000000000b0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000300000000000000000000000b0303000003000000000b000000000000000000000b00000b0000000b000000000000000000000000000000000000000000000000000000000000000000000000000000030008000b000900090b000003030300000303070000060700000b000600090b09000b0700070b0700070b070000000000000000000000000000000000000000000000000000000000000000000000000101010101010101010101010101040000050101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101`, img`
             2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
             2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
             2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
@@ -256,7 +335,7 @@ function initMap () {
             2 . . . . . . . . . . . . 2 2 . . 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
             2 . . . . . . . . . . . 2 2 2 . . 2 2 . . . 2 . . . . . 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
             2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 . . 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-            `, [myTiles.tile0,sprites.castle.tilePath2,myTiles.tile1,sprites.dungeon.floorLight2,sprites.castle.tilePath3,sprites.castle.tilePath1,myTiles.tile2,myTiles.tile3,myTiles.tile10,myTiles.tile11,myTiles.tile12], TileScale.Sixteen))
+            `, [myTiles.tile0,sprites.castle.tilePath2,myTiles.tile1,sprites.dungeon.floorLight2,sprites.castle.tilePath3,sprites.castle.tilePath1,myTiles.tile2,myTiles.tile3,myTiles.tile10,myTiles.tile11,myTiles.tile12,myTiles.tile14], TileScale.Sixteen))
     }
     initMapElements()
 }
@@ -513,6 +592,7 @@ let sprMunition: Sprite = null
 let mario: Sprite = null
 let listFlowers: Sprite[] = []
 let listBricks: Sprite[] = []
+let Coin: Sprite = null
 let sprSecretFlowerLower: Sprite = null
 let sprSecret: Sprite = null
 let sprSecretFlower: Sprite = null
